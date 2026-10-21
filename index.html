@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Parking System | Gate-Level Circuit</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><span class="pill">Smart Parking System</span><span class="sub">Digital Fundamentals Mini Project</span>
+<button id="reset" class="rst">Start / Reset Simulation</button></header>
+<main>
+<section class="stats">
+ <div><span>Total Slots</span><b>4</b></div><div><span>Cars Parked</span><b id="sCars">0</b></div>
+ <div class="big"><span>Available Spaces</span><b id="sFree">4</b></div><div><span>Status</span><b id="sSt">EMPTY</b></div>
+</section>
+<section class="card lotwrap">
+ <div class="lot" id="lot"></div>
+ <div class="ctrl">
+  <button id="bE" class="push green"><i></i><em>ENTER</em></button>
+  <button id="bX" class="push red"><i></i><em>EXIT</em></button>
+  <div id="msg" class="msg">Ready</div>
+ </div>
+</section>
+<section class="card"><h2>Gate-Level Circuit <small>(click the ENTER / EXIT switches inside the circuit, or use the big buttons)</small></h2>
+ <div class="svgbox"><svg id="svg" viewBox="0 0 1300 640"></svg></div>
+ <div class="legend"><i class="h"></i>HIGH (1) <i class="l"></i>LOW (0) &nbsp; Buttons are active-low: pressed = 0 at E_IN / X_IN</div>
+ <div class="logic" id="logic"></div>
+</section>
+<section class="two">
+ <div class="card"><h2>Event Log</h2><ul id="log"></ul></div>
+ <div class="card how"><h2>How It Works</h2>
+ <p><b>Buttons:</b> a 10k pull-up keeps E_IN / X_IN at 1. Pressing the switch connects it to ground, so the pin goes 0.</p>
+ <p><b>NOT gates</b> flip it to active-high ENT / EXT.</p>
+ <p><b>AND + NOT (FULL):</b> ENT_OK = ENT AND (NOT FULL). A car cannot enter when Q2 = 1 (count 4).</p>
+ <p><b>NAND + NOT (EMPTY):</b> EXT_OK = NOT( EXT NAND (NOT EMPTY) ). A car cannot exit at count 0.</p>
+ <p><b>XOR:</b> CLK = ENT_OK XOR EXT_OK. One valid press makes one clock pulse; pressing both together cancels out.</p>
+ <p><b>Counter (74HC191):</b> counts up on ENTER, down on EXIT (D/U = EXT_OK). It counts only on the rising edge of CLK, so holding a button counts once. 3 bits (Q2 Q1 Q0) are needed because 2 bits stop at 3.</p>
+ <p><b>OR / AND / NOR decoder:</b> L2 = Q1+Q2, L1 = L2+Q0, L3 = Q2 + Q1.Q0, L4 = Q2, FULL = Q2, EMPTY = NOR(L2, Q0). Each output drives an LED through a 330 ohm resistor.</p></div>
+</section></main>
+<script src="script.js"></script></body></html>
