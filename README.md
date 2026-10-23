@@ -1,4 +1,3 @@
-Bhai, bilkul! 😊 Main tumhare Smart Parking System ke sirf `sketch.ino` code ko line-by-line simple Hinglish mein samjhaunga — code mein kya use kiya hai, uska kya kaam hai, aur humne wahi kyon use kiya.
 
 Sabse pehle project ka basic logic samajh lo:
 
